@@ -3,6 +3,7 @@ package anderk222.hellojwt.config.security;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,8 +20,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import anderk222.hellojwt.util.Encryptor;
-import anderk222.hellojwt.util.KeyGenerator;
 import anderk222.hellojwt.util.TokenUtil;
+
+import static anderk222.hellojwt.util.PropertiesConverter.JWT_RANDOM_KEY;
+import static anderk222.hellojwt.util.PropertiesConverter.SECRET_KEY;
+
 
 @Configuration
 public class SecurityConfig {
@@ -28,16 +32,16 @@ public class SecurityConfig {
     @Autowired
     UserDetailsService userDetailsService;
 
-    @Value("${key.password}")
-    private String privatePassword;
+    @Value(SECRET_KEY)
+    private SecretKey secretKey;
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
+    @Value(JWT_RANDOM_KEY)
+    private SecretKey jwtSecretKey;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
 
-        TokenUtil tokenUtil = new TokenUtil(jwtSecret);
+        TokenUtil tokenUtil = new TokenUtil(jwtSecretKey);
 
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenUtil);
         jwtAuthenticationFilter.setAuthenticationManager(authManager);
@@ -70,10 +74,8 @@ public class SecurityConfig {
     @Bean 
     PasswordEncoder encoder() throws InvalidKeySpecException, NoSuchAlgorithmException {
 
-        return new Encryptor(KeyGenerator.getKey(256, privatePassword));
+        return new Encryptor(secretKey);
 
     }
-
-
 
 }

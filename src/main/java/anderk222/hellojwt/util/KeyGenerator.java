@@ -12,7 +12,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class KeyGenerator {
 
-    public static SecretKey getKey(int keySize, String password)
+    public static SecretKey key(int keySize, String password)
             throws InvalidKeySpecException, NoSuchAlgorithmException {
 
         byte[] salt = new byte[100];
@@ -22,7 +22,7 @@ public class KeyGenerator {
         return new SecretKeySpec(pbeKey.getEncoded(), "AES");
     }
 
-    public static SecretKey getRandomKey(int keySize, String password) throws Exception {
+    public static SecretKey randomKey(int keySize, String password) throws Exception {
 
         byte[] salt = new byte[100];
 
@@ -39,7 +39,7 @@ public class KeyGenerator {
 
     // JWT
 
-    public static SecretKey getJwtKey(int keySize, String secret) throws Exception {
+    public static SecretKey jwtKey(int keySize, String secret) throws Exception {
 
         byte[] salt = new byte[100];
 
@@ -51,7 +51,7 @@ public class KeyGenerator {
 
     }
 
-    public static SecretKey getJwtRandomKey(int keySize, String secret) throws Exception {
+    public static SecretKey jwtRandomKey(int keySize, String secret) throws Exception {
 
         byte[] salt = new byte[100];
 

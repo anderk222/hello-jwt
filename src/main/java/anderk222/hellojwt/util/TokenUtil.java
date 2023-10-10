@@ -16,9 +16,10 @@ public class TokenUtil {
 
     private SecretKey secretKey;
 
-    public TokenUtil(String secret) throws Exception {
+    public TokenUtil(SecretKey secret) throws Exception {
 
-        this.secretKey = KeyGenerator.getJwtRandomKey(256, secret);
+        this.secretKey = secret;
+
 
     }
 
