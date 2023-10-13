@@ -2,26 +2,23 @@ package anderk222.hellojwt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import anderk222.hellojwt.model.User;
-import anderk222.hellojwt.service.UserService;
+import anderk222.hellojwt.dto.Response;
+import anderk222.hellojwt.service.UsuarioService;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(allowedHeaders = { "Authorization" }, origins = "http:localhost:8000")
 public class UserController {
-    
+
     @Autowired
-    UserService service;
+    UsuarioService service;
 
-    @PostMapping("/register")
-    public String register(@RequestBody User user){
+    @GetMapping("/validate")
+    public Response validate() {
 
-        service.register(user); 
-
-        return "ok";
+        return Response.ok();
 
     }
 

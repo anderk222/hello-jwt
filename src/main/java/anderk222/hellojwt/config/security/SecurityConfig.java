@@ -32,6 +32,9 @@ public class SecurityConfig {
     @Autowired
     UserDetailsService userDetailsService;
 
+    @Autowired
+    JwtEntryPoint jwtEntryPoint;
+
     @Value(SECRET_KEY)
     private SecretKey secretKey;
 
@@ -55,7 +58,8 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilter(jwtAuthenticationFilter)
-                .addFilterBefore(new JwtAuthorizationFilter(tokenUtil), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthorizationFilter(tokenUtil), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exh->exh.authenticationEntryPoint(jwtEntryPoint));
 
         return http.build();
     }

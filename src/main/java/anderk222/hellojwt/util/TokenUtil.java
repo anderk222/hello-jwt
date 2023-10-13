@@ -20,12 +20,11 @@ public class TokenUtil {
 
         this.secretKey = secret;
 
-
     }
 
     private final static long expiration = 121212121l;
 
-    public String createToken(String name) {
+    public String createToken(Map<String, ?> claims) {
 
         Map<String, Object> data = new HashMap<>();
 
@@ -33,8 +32,10 @@ public class TokenUtil {
 
         Date dateExpiration = new Date(System.currentTimeMillis() + expiration);
 
-        String token = Jwts.builder().subject(name).expiration(dateExpiration)
+        String token = Jwts.builder().claims(claims)
+                .expiration(dateExpiration).expiration(dateExpiration)
                 .signWith(secretKey).compact();
+        
         return token;
     }
 

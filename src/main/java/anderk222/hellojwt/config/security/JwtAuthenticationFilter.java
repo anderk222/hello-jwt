@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UserDetailsImpl user = (UserDetailsImpl) authResult.getPrincipal();
 
 
-        String token = tokenUtil.createToken(user.getUsername());
+        String token = tokenUtil.createToken(user.claims());
 
         response.addHeader("Authorization", "Bearer "+token);
 

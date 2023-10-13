@@ -4,27 +4,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import anderk222.hellojwt.model.User;
-import anderk222.hellojwt.repository.UserRepository;
+import anderk222.hellojwt.model.Usuario;
+import anderk222.hellojwt.repository.UsuarioRepository;
 
 @Service
-public class UserService {
+public class UsuarioService {
 
     @Autowired
     PasswordEncoder encoder; 
 
     @Autowired
-    UserRepository repository;
+    UsuarioRepository repository;
 
-    public User findByuserName(String name) {
+    public Usuario findByuserName(String name) {
 
-        return repository.findByUserName(name)
+        return repository.findByUserNameOrMail(name, name)
                 .orElseThrow(() -> new RuntimeException("user not found"));
 
     }
 
 
-    public User register(User user){
+    public Usuario register(Usuario user){
 
         user.setPassword(encoder.encode(user.getPassword()));
 
